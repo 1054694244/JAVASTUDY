@@ -1,6 +1,4 @@
-package com.shenzc.lambada;
-
-import java.util.List;
+package com.shenzc.lambda.lambada;
 
 /**
  * @author shenzc

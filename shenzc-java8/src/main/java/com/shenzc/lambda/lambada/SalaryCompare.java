@@ -1,4 +1,4 @@
-package com.shenzc.lambada;
+package com.shenzc.lambda.lambada;
 
 /**
  * @author shenzc

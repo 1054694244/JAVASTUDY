@@ -1,4 +1,4 @@
-package com.shenzc.lambada;
+package com.shenzc.lambda.lambada;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,5 +16,15 @@ public class Student {
     private int age;
 
     private int salary;
+
+    public Student(){}
+
+    public Student(String name){
+        this.name = name;
+    }
+
+    public Student(int age){
+        this.age= age;
+    }
 
 }
