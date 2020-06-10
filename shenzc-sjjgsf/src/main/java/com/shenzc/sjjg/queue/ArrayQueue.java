@@ -74,6 +74,7 @@ public class ArrayQueue {
         }
     }
 
+    //展现数据
     public List<Integer> show(){
         if (isEmpty()){
             return null;
