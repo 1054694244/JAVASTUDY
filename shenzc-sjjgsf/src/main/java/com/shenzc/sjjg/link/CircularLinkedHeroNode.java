@@ -18,7 +18,7 @@ class CircularLinkedNode{
     private CircularHeroNode head = null;
 
     //环形链表增加几个元素
-    public boolean add(int num){
+    /*public boolean add(int num){
         //定义一个辅助变量
         CircularHeroNode temp = head;
         //遍历链表找到最后一个元素的next为空的
@@ -30,7 +30,7 @@ class CircularLinkedNode{
             }
             temp = temp.next;
         }
-    }
+    }*/
 
 
 
