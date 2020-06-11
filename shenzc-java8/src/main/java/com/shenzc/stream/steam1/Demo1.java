@@ -1,4 +1,4 @@
-package com.shenzc.stream;
+package com.shenzc.stream.steam1;
 
 /**
  * @author shenzc
