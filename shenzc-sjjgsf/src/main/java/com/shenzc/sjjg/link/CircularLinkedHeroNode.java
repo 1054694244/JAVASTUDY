@@ -13,6 +13,7 @@ public class CircularLinkedHeroNode {
     }
 }
 
+
 class CircularLinkedNode{
 
     private CircularHeroNode head = null;
