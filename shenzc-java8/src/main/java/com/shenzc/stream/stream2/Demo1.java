@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -19,12 +20,6 @@ import java.util.stream.Stream;
  * limit——截断流，使其元素不超过给定数量。
  * skip(n)——跳过元素，返回一个扔掉了前n个元素的流程，若流中元素不足n个，则返回一个空流。与limit(n)互补
  * distinct——筛选，通过流所生成元素的hashCode()和equals()去除重复元素
- */
-
-/**
- * 映射
- * map——接受lambda，将元素转换成其他形式或提取信息。接受一个函数作为参数，该函数会被应用到每个元素上，并将其映射成一个新的元素。
- * flatMap——接受一个函数作为参数，将流中的每个值都·换成另一个流，然后把所有的流连接成一个流。
  */
 public class Demo1 {
 
@@ -92,6 +87,13 @@ public class Demo1 {
         return list.stream();
     }
 
+
+    /**
+     * 映射
+     * map——接受lambda，将元素转换成其他形式或提取信息。接受一个函数作为参数，该函数会被应用到每个元素上，并将其映射成一个新的元素。
+     * flatMap——接受一个函数作为参数，将流中的每个值都·换成另一个流，然后把所有的流连接成一个流。
+     */
+
     @Test
     public void test5(){
         List<String> arrays = Arrays.asList("aaa","bbb","ccc");
@@ -112,6 +114,31 @@ public class Demo1 {
         Stream<Character> characterStream = arrays.stream()
                 .flatMap(Demo1::getCharacter);
         characterStream.forEach(System.out::println);
+
+    }
+
+
+    //排序
+    /**
+     * sorted()——自然排序(comparable)
+     * sorted(Comparator com)——定制排序
+     */
+    @Test
+    public void test6(){
+        List<String> arrays = Arrays.asList("aaa","bbb","ccc");
+        /*arrays.stream()
+                .sorted()
+                .forEach(System.out::println);*/
+
+        list.stream()
+                .sorted((a,b) -> {
+                    if (a.getAge() == b.getAge()){
+                        return a.getName().compareTo(b.getName());
+                    }else {
+                        return String.valueOf(a.getAge()).compareTo(String.valueOf(b.getAge()));
+                    }
+                })
+                .forEach(System.out::println);
 
     }
 
