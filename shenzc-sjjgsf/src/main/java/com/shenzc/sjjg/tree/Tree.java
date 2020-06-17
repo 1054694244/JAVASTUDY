@@ -20,9 +20,9 @@ public class Tree {
     }
 
     //前序遍历：中左右
-    public static void preSort(Tree tree){
+    public void preSort(Tree tree){
         //输出中间节点
-        System.out.println(tree.name);
+        System.out.println(tree.no);
         //遍历左边节点
         if (tree.left!=null){
             preSort(tree.left);
@@ -34,7 +34,7 @@ public class Tree {
     }
 
     //中序遍历：左中右
-    public static void middleSort(Tree tree){
+    public void middleSort(Tree tree){
         //遍历左边节点
         if (tree.left!=null){
             middleSort(tree.left);
@@ -48,7 +48,7 @@ public class Tree {
     }
 
     //后序遍历：左右中
-    public static void postSort(Tree tree){
+    public void postSort(Tree tree){
         //遍历左边节点
         if (tree.left!=null){
             postSort(tree.left);
@@ -131,7 +131,7 @@ public class Tree {
     }
 
     //删除（暂时直接删除该节点整个子树
-    public boolean remove(int no){
+    /*public boolean remove(int no){
         //单链表，不能直接判断该节点，这样无法删除该节点，只能判断该节点的左右节点，然后通过该节点删除左右节点
         if (this==null){
             return false;
@@ -157,6 +157,172 @@ public class Tree {
             this.right.remove(no);
         }
         return false;
+    }*/
+
+
+    //二叉排序树
+    //添加
+    public boolean add(Tree tree){
+        if (tree == null){
+            return false;
+        }
+        if (tree.no>this.no){
+            if (this.right == null){
+                this.right = tree;
+            }else {
+                this.right.add(tree);
+            }
+        }else {
+            if (this.left == null){
+                this.left = tree;
+            }else {
+                this.left.add(tree);
+            }
+        }
+        return true;
     }
+    //查询当前节点
+    public Tree searchTarget(int no){
+        if (this.no == no){
+            return this;
+        }
+        if (this.no>no){
+            if (this.left!=null){
+                return this.left.searchTarget(no);
+            }
+        }
+        if (this.no<no){
+            if (this.right!=null){
+                return this.right.searchTarget(no);
+            }
+        }
+        return null;
+    }
+    //查询当前节点父节点
+    public Tree searchParent(int no){
+        if ((this.left!=null && this.left.no == no) || (this.right!=null && this.right.no == no)){
+            return this;
+        }
+        if (this.left!=null && this.no>no){
+            return this.left.searchParent(no);
+        }
+        if (this.right!=null && this.no>no){
+            return this.right.searchParent(no);
+        }
+        return null;
+    }
+    //查询当前树最小的节点
+    public Tree deleteSearchMinTree(Tree tree){
+        if (tree == null){
+            return null;
+        }
+        Tree temp = tree.right;
+        while (temp.left!=null){
+            temp = temp.left;
+        }
+        remove(temp.no);
+        return temp;
+    }
+    //删除
+    public boolean remove(int no){
+        if (this == null){
+            return false;
+        }
+        //查找到当前要删掉的节点
+        Tree target = searchTarget(no);
+        Tree parent = searchParent(no);
+        //如果没有找到当前节点
+        if (target==null){
+            return false;
+        }
+        //如果叶子节点
+        if (target.right == null && target.left == null){
+            if (parent!=null){
+                if (parent.left == target){
+                    parent.left = null;
+                }
+                if (parent.right == target){
+                    parent.right = null;
+                }
+            }else {
+                this.no = 0;
+            }
+            return true;
+        }
+        //如果是有两个子节点
+        if (target.right != null && target.left != null){
+            if (parent != null){
+                //删除当前节点的右子树的最小节点，并返回最小节点
+                Tree minTree = deleteSearchMinTree(target);
+                //查询最小节点的父节点
+                if (parent.right == target){
+                    minTree.right = target.right;
+                    minTree.left = target.left;
+                    parent.right = minTree;
+                }else if (parent.left == target){
+                    minTree.right = target.right;
+                    minTree.left = target.left;
+                    parent.left = minTree;
+                }
+            }else {
+                this.no = target.right.no;
+                this.right = target.right.right;
+                this.left = target.left;
+            }
+            return true;
+        }
+        //如果是只有一子节点
+        if (target.right == null || target.left == null){
+            if (parent != null){
+                if (parent.right == target){
+                    if (target.right != null){
+                        parent.right = target.right;
+                    }else if (target.left != null){
+                        parent.right = target.left;
+                    }
+                }
+            }else {
+                if (target.left != null){
+                    this.no = target.left.no;
+                    this.left = target.left.left;
+                    this.right = target.right;
+                }else if (target.right != null){
+                    this.no = target.right.no;
+                    this.left = target.left;
+                    this.right = target.right.right;
+                }
+            }
+            if (parent != null){
+                if (parent.left == target){
+                    if (target.right != null){
+                        parent.left = target.right;
+                    }else if (target.left != null){
+                        parent.left = target.left;
+                    }
+                }
+            }else {
+                this.no = target.no;
+                this.left = target.left;
+                this.right = target.right;
+            }
+        }
+        return true;
+    }
+    //遍历
+    public void preShow(){
+        if (this == null){
+            return;
+        }
+        if (this.left != null){
+            this.left.preShow();
+        }
+        System.out.println(this.no);
+        if (this.right != null){
+            this.right.preShow();
+        }
+    }
+
+    //平衡树
+
 
 }
