@@ -323,6 +323,80 @@ public class Tree {
     }
 
     //平衡树
+    //添加
+    public boolean AVLadd(Tree tree){
+        if (tree == null){
+            return false;
+        }
+        if (tree.no>this.no){
+            if (this.right == null){
+                this.right = tree;
+            }else {
+                this.right.add(tree);
+            }
+        }else {
+            if (this.left == null){
+                this.left = tree;
+            }else {
+                this.left.add(tree);
+            }
+        }
+        if (this.left.height() > this.right.height()){
+            if (this.left.right.height()>this.left.left.height()){
+                this.left.left();
+            }else {
+                this.right();
+            }
+        }
+        if (this.right.height() > this.left.height()){
+            if (this.right.left.height()>this.right.right.height()){
+                this.right.right();
+            }else {
+                this.left();
+            }
+        }
+        return true;
+    }
+
+    //左旋转
+    public Tree left(){
+        //创建一个新节点 = 当前根节点
+        Tree newTree = this;
+        newTree.left = this.left;
+        newTree.right = this.right.left;
+        this.no = this.right.no;
+        this.left = newTree;
+        this.right = this.right.right;
+        return this;
+    }
+
+    //左旋转
+    public Tree right(){
+        //创建一个新节点 = 当前根节点
+        Tree newTree = this;
+        newTree.left = this.left.right;
+        newTree.right = this.right;
+        this.no = this.left.no;
+        this.right = newTree;
+        this.left = this.left.left;
+        return this;
+    }
+
+    //获取树的高度
+    public int height(){
+        int leftHeight = 0;
+        int rightHeight = 0;
+        if (this == null){
+            return 0;
+        }
+        if (this.left != null){
+            leftHeight = height()+1;
+        }
+        if (this.right != null){
+            rightHeight = height()+1;
+        }
+        return Math.max(leftHeight,rightHeight);
+    }
 
 
 }
