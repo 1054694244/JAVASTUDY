@@ -24,6 +24,7 @@ public class BasicSelectorClient {
                 System.out.println("因为连接需要时间，客户端不会阻塞，可以做其他工作");
             }
         }
+
         //如果连接成功
         String str = "你傻吗？？？？";
         //根据字节数组大小来创建buffer，不需要指定大小
