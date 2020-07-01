@@ -23,8 +23,10 @@ public class NettyServer {
             //使用链式编程来进行设置
             bootstrap.group(bossGroup,workGroup)                            //设置两个线程组
                     .channel(NioServerSocketChannel.class)                  //使用NioServerSocketChannel，作为服务器的通道实现
-                    .option(ChannelOption.SO_BACKLOG,128)              //设置线程队列得到连接个数
+                    .option(ChannelOption.SO_BACKLOG,128)                 //设置线程队列得到连接个数
                     .childOption(ChannelOption.SO_KEEPALIVE,true)       //设置保持活动连接状态
+                    //改handler对应的bossGroup生效，childHandler实在workGroup生效
+                    .handler(null)
                     .childHandler(new ChannelInitializer<SocketChannel>() {    //给我的workerGroup的EventLoop对应的管道设置处理器
                         //创建一个通道初始化对象，给pipeline设置处理器
                         @Override
@@ -39,6 +41,18 @@ public class NettyServer {
             //绑定端口,并且同步，生成一个ChannelFuture对象
             //启动服务器
             ChannelFuture cf = bootstrap.bind(6667).sync();
+
+            //给channelFuture注册监听器，监控我们关心的事件
+            cf.addListener(new ChannelFutureListener() {
+                @Override
+                public void operationComplete(ChannelFuture channelFuture) throws Exception {
+                    if (channelFuture.isSuccess()){
+                        System.out.println("监控端口 6667 成功");
+                    }else {
+                        System.out.println("监听失败");
+                    }
+                }
+            });
 
             //对关闭通道进行监听
             cf.channel().closeFuture().sync();
