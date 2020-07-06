@@ -11,7 +11,6 @@ public class NettyBuf1 {
          * 通过readIndex和writeIndex和capacity将buffer分成了三个区域
          * 0-readerIndex：已经读取区
          * readerIndex-writeIndex：可以读取区
-         * 0-writeIndex：已经写入区
          * writeIndex-capacity：可以写入区
          */
         ByteBuf buffer = Unpooled.buffer(10);
